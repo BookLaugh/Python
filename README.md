@@ -1,3 +1,3 @@
 # Udemy_Python_Bootcamp
 
-From time to time I will be uploading some lines of codes :)
+Hey, if u learning Python WELCOME !!!!
