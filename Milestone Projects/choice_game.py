@@ -66,5 +66,7 @@ while gameon:
     print('')
     gameon =  gameon_choice()
 
-
+if gameon == False:
+    print('')
+    print('Game is Over !')
 
