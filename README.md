@@ -1,3 +1,3 @@
-# Udemy_Python_
+# UdemyPython
 
-Hey, if u learning Python WELCOME !!!!
+I am suck ()
