@@ -5,7 +5,6 @@ from PIL import Image
 matrix = Image.open("word_matrix.png")
 mask = Image.open("mask.png")
 
-# matrix.paste(mask,(0,0),mask)
 # matrix.show()
 new_mask = mask.resize((1015,559))
 # new_mask.show()
