@@ -1,3 +1,3 @@
-# This is what my way of learning Python looks like !!
+# Python
 
 Keep coding :)
