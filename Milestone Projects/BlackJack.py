@@ -4,8 +4,6 @@ suits = ('Hearts','Diamonds','Spades','Clubs')
 ranks = ('Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Jack','Queen','King','Ace')
 values = {'Two':2,'Three':3,'Four':4,'Five':5,'Six':6,'Seven':7,'Eight':8,'Nine':9,'Ten':10,'Jack':10,'Queen':10,'King':10,'Ace':11}
 
-game_on = True	
-
 
 class Card:
 	def __init__(self,suit,rank):
@@ -25,10 +23,8 @@ class Deck:
 				self.all_cards.append(Card(suit,rank)) # A list of all 52 cards
 
 	def __str__(self):
-		test_card = '' # An empty string just for the beginning
-		for card in self.all_cards:
-			test_card += '\n' + card.__str__() # Adds each each cars object to the 'test_card'
-		return "All cards:" + test_card
+		test_card = '\n'.join(str(card) for card in self.all_cards)
+		return "All cards: " + test_card
 
 	def shuffle(self):
 		random.shuffle(self.all_cards)
@@ -48,7 +44,7 @@ class Hand:
 		self.cards.append(card)
 		self.value += values[card.rank]
 		if card.rank == 'Ace':
-			self.ace += 1 # 
+			self.ace += 1
 
 	def adjust_for_ace(self):
 		if self.value > 21 and 'Ace' in self.cards:
@@ -56,15 +52,16 @@ class Hand:
 			self.ace -= 1
 
 
-
-
-
-
 class Chips:
 	def __init__(self):
 		self.total = 80 # A starting money that may player have 
 		self.bet = 0
-
+	
+	def set_bet(self, value):
+		if value > self.total:
+			raise ValueError("Your bet can't exceed your %s" % self.total)
+		self.bet = value
+		
 	def win_bet(self):
 		self.total += self.bet
 
@@ -73,38 +70,31 @@ class Chips:
 
 	
 def take_bet(chips):
-
 	while True:
 		try:
-			chips.bet = int(input("\nHow many chips would you like to bet ? "))
+			chips.set_bet(int(input("\nHow many chips would you like to bet ? "))
 		except ValueError:
-			print("Sorry, a bet must be an integer!")
+			print("Sorry, this bet isn't valid. Try again!")
 		else:
-			if chips.bet > chips.total:
-				print("Error, your bet can't exceed your ",chips.total)
-			else:
-				break
+			break
 
 def hit(deck,hand):
-
 	hand.add_cards(deck.deal())
 	hand.adjust_for_ace()
 
 def hit_or_stand(deck,hand):
-	global game_on
-
 	while True:
 		x = input("\nWould you like to Hit or Stand? Enter 'h' or 's' ")
 
 		if x[0].lower()=='h':
 			hit(deck,hand) # hit() function defined above to Hit
+			return True
 		elif x[0].lower()=='s':
 			print("Player stands. Dealer is playing.")
-			game_on = False
+			return False
 		else:
 			print("Sorry, please try again.")
 			continue
-		break	
 
 def show_some(player,dealer):
 	print("\nDealer's Hand:")
@@ -164,11 +154,11 @@ while True:
 	take_bet(player_chips)
 
 	show_some(player_hand,dealer_hand) # show cards but dealer's one card is <hidden>
-
+	game_on = True
 	while game_on: # this variable is from hit_or_stand 
 
 		# To Hit or Stand ?
-		hit_or_stand(deck,player_hand)
+		game_on = hit_or_stand(deck,player_hand)
 
 		show_some(player_hand,dealer_hand)
 
